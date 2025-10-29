@@ -14,7 +14,8 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  const [mounted, setMounted] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -25,6 +26,7 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7.5deg", "7.5deg"]);
 
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -63,18 +65,33 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
 
   const isEven = index % 2 === 0;
 
+  // Always show content on mobile, use animations only on desktop
+  const containerAnimation = isMobile ? {
+    initial: { opacity: 1, y: 0 },
+    animate: { opacity: 1, y: 0 },
+  } : {
+    initial: { opacity: 0, y: 80 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-100px", amount: 0.2 },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  };
+
+  const textAnimation = isMobile ? {
+    initial: { opacity: 1 },
+    animate: { opacity: 1 },
+  } : {
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
+    viewport: { once: true },
+    transition: { delay: 0.2, duration: 0.6 },
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 80 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-150px", amount: 0.3 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className={`grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-32 ${isEven ? '' : 'md:grid-flow-dense'}`}
-    >
+    <div className={`grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-16 md:mb-32 ${isEven ? '' : 'md:grid-flow-dense'}`}>
       <motion.div
         ref={ref}
         className={`relative group cursor-hover ${isEven ? '' : 'md:col-start-2'}`}
-        style={{
+        style={isMobile ? {} : {
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
@@ -83,19 +100,21 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={onClick}
-        whileHover={{ scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        whileHover={isMobile ? {} : { scale: 0.98 }}
+        transition={isMobile ? {} : { type: "spring", stiffness: 300, damping: 30 }}
+        {...(mounted ? containerAnimation : { initial: { opacity: 1, y: 0 } })}
       >
         <div className="relative overflow-hidden rounded-lg aspect-[16/10] bg-secondary">
           <img 
             src={image}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           
-          {/* Explore Cursor */}
-          {isHovered && (
+          {/* Explore Cursor - Desktop only */}
+          {isHovered && !isMobile && (
             <motion.div
               className="absolute pointer-events-none z-50"
               style={{
@@ -141,14 +160,9 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
       </motion.div>
 
       <div className={isEven ? '' : 'md:col-start-1 md:row-start-1'}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
+        <motion.div {...(mounted ? textAnimation : { initial: { opacity: 1 } })}>
           <h3 
-            className="text-3xl md:text-7xl mb-6 cursor-hover group" 
+            className="text-3xl md:text-7xl mb-4 md:mb-6 cursor-hover group" 
             style={{ fontWeight: 700 }}
             onClick={onClick}
           >
@@ -156,14 +170,14 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
               {title}
             </span>
           </h3>
-          <p className="text-base md:text-xl text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 leading-relaxed">
             {description}
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 md:gap-3">
             {tags.map((tag, i) => (
               <span 
                 key={i}
-                className="px-4 py-2 bg-secondary border border-border rounded-full text-sm"
+                className="px-3 md:px-4 py-1.5 md:py-2 bg-secondary border border-border rounded-full text-xs md:text-sm"
               >
                 {tag}
               </span>
@@ -171,6 +185,6 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
           </div>
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }

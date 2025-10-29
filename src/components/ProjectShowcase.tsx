@@ -1,5 +1,5 @@
 import { ProjectCard } from './ProjectCard';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ProjectDetail } from './ProjectDetail';
 import { motion, useScroll, useTransform } from 'motion/react';
 
@@ -92,6 +92,7 @@ const projects: Project[] = [
 
 export function ProjectShowcase() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -101,20 +102,28 @@ export function ProjectShowcase() {
   const titleY = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <>
-      <section ref={sectionRef} id="projects" className="relative py-32 px-4 md:px-8">
+      <section ref={sectionRef} id="projects" className="relative py-16 md:py-32 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
-            style={{ y: titleY, opacity: titleOpacity }}
-            className="mb-24 text-center"
+          <div 
+            className="mb-16 md:mb-24 text-center"
           >
-            <h2 className="text-4xl md:text-8xl mb-6 text-white" style={{ fontWeight: 700 }}>
+            <h2 className="text-5xl md:text-8xl mb-6 text-white" style={{ fontWeight: 700 }}>
               SELECTED
               <br />
               <span className="text-accent">WORKS</span>
             </h2>
-          </motion.div>
+          </div>
 
           <div className="space-y-0">
             {projects.map((project, index) => (

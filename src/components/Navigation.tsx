@@ -17,10 +17,21 @@ export function Navigation() {
 
   const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
-    const element = document.querySelector(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    
+    // Add a small delay to ensure mobile menu closes first
+    setTimeout(() => {
+      const element = document.querySelector(sectionId);
+      if (element) {
+        const navHeight = 80; // Approximate navigation height
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - navHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   const navItems = [

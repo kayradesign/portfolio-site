@@ -9,28 +9,8 @@ import { AboutSection } from './components/AboutSection';
 import { ProcessSection } from './components/ProcessSection';
 import { ProjectShowcase } from './components/ProjectShowcase';
 import { Footer } from './components/Footer';
-import { useEffect } from 'react';
 
 export default function App() {
-  useEffect(() => {
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const href = anchor.getAttribute('href');
-        if (href && href !== '#') {
-          const element = document.querySelector(href);
-          if (element) {
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        }
-      });
-    });
-  }, []);
-
   const skills = [
     "CREATIVE DESIGN",
     "VISUAL IDENTITY",
