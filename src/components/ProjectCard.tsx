@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface ProjectCardProps {
   title: string;
@@ -14,6 +14,7 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -23,8 +24,17 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7.5deg", "-7.5deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7.5deg", "7.5deg"]);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return;
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -40,7 +50,9 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (!isMobile) {
+      setIsHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -136,7 +148,7 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           <h3 
-            className="text-5xl md:text-7xl mb-6 cursor-hover group" 
+            className="text-3xl md:text-7xl mb-6 cursor-hover group" 
             style={{ fontWeight: 700 }}
             onClick={onClick}
           >
@@ -144,7 +156,7 @@ export function ProjectCard({ title, description, image, tags, index, onClick }:
               {title}
             </span>
           </h3>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-base md:text-xl text-muted-foreground mb-8 leading-relaxed">
             {description}
           </p>
           <div className="flex flex-wrap gap-3">

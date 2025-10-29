@@ -15,9 +15,9 @@ export function HeroSection() {
 
   return (
     <div ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated text background */}
+      {/* Animated text background - Desktop */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center opacity-5"
+        className="hidden md:flex absolute inset-0 items-center justify-center opacity-5"
         animate={{
           scale: [1, 1.05, 1],
         }}
@@ -63,14 +63,30 @@ export function HeroSection() {
           </motion.div>
 
           <motion.h1 
-            className="text-6xl md:text-8xl lg:text-9xl tracking-tight mb-6 text-white" 
+            className="text-5xl md:text-8xl lg:text-9xl tracking-tight mb-6 text-white relative" 
             style={{ fontWeight: 700 }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
+            {/* Mobile KAYRA background - positioned between DIGITAL and DESIGNER */}
             <motion.span
-              className="inline-block"
+              className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] opacity-5 whitespace-nowrap pointer-events-none"
+              style={{ fontWeight: 900 }}
+              animate={{
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              KAYRA
+            </motion.span>
+
+            <motion.span
+              className="inline-block relative z-10"
               animate={{
                 textShadow: [
                   '0 0 20px rgba(143, 190, 159, 0)',
@@ -88,7 +104,7 @@ export function HeroSection() {
             </motion.span>
             <br />
             <motion.span 
-              className="text-accent inline-block"
+              className="text-accent inline-block relative z-10"
               animate={{
                 textShadow: [
                   '0 0 30px rgba(143, 190, 159, 0.6)',
@@ -111,7 +127,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12"
+          className="text-base md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 px-4"
         >
           Crafting premium digital experiences through{' '}
           <span className="text-white" style={{ fontWeight: 600 }}>UI/UX Design</span>,{' '}

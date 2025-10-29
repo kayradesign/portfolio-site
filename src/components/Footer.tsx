@@ -22,8 +22,8 @@ export function Footer() {
 
   const socials = [
     { icon: Mail, label: 'Email', href: 'mailto:connect@kayra.me' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#' },
-    { icon: BehanceIcon, label: 'Behance', href: '#' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/yasin-kayra-ciftci' },
+    { icon: BehanceIcon, label: 'Behance', href: 'https://www.behance.net/ysnkayra' },
   ];
 
   return (
@@ -53,7 +53,7 @@ export function Footer() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.h3 
-              className="text-5xl md:text-7xl mb-6 text-white" 
+              className="text-3xl md:text-7xl mb-6 text-white" 
               style={{ fontWeight: 700 }}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -119,6 +119,8 @@ export function Footer() {
                 <motion.a
                   key={index}
                   href={social.href}
+                  target={social.label !== 'Email' ? '_blank' : undefined}
+                  rel={social.label !== 'Email' ? 'noopener noreferrer' : undefined}
                   className="cursor-hover relative w-14 h-14 rounded-xl border border-border flex items-center justify-center group overflow-hidden"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.95 }}
@@ -141,7 +143,7 @@ export function Footer() {
             <div className="space-y-4">
               <motion.a 
                 href="mailto:connect@kayra.me"
-                className="cursor-hover group flex items-center gap-3 text-2xl md:text-3xl hover:text-accent transition-colors"
+                className="cursor-hover group flex items-center gap-3 text-lg md:text-3xl hover:text-accent transition-colors"
                 style={{ fontWeight: 600 }}
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -150,12 +152,12 @@ export function Footer() {
                 whileHover={{ x: 5 }}
               >
                 connect@kayra.me
-                <ArrowUpRight className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </motion.a>
               
               <motion.a 
                 href="tel:+905451763389"
-                className="cursor-hover group flex items-center gap-3 text-lg md:text-xl text-muted-foreground hover:text-accent transition-colors"
+                className="cursor-hover group flex items-center gap-3 text-base md:text-xl text-muted-foreground hover:text-accent transition-colors"
                 style={{ fontWeight: 500 }}
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -163,7 +165,7 @@ export function Footer() {
                 transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ x: 5 }}
               >
-                <Phone className="w-5 h-5" />
+                <Phone className="w-4 h-4 md:w-5 md:h-5" />
                 +90 545 176 33 89
               </motion.a>
             </div>

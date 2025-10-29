@@ -46,14 +46,15 @@ export function ProcessSection() {
           style={{ y: titleY, opacity: titleOpacity }}
           className="text-center mb-24"
         >
-          <h2 className="text-6xl md:text-8xl mb-8 text-white" style={{ fontWeight: 700 }}>
+          <h2 className="text-4xl md:text-8xl mb-8 text-white" style={{ fontWeight: 700 }}>
             MY CREATIVE
             <br />
             <span className="text-accent">PROCESS</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-4 gap-6">
           {steps.map((step, index) => {
             const cardY = useTransform(scrollYProgress, [0, 1], [60 + index * 15, -60 - index * 15]);
             
@@ -146,6 +147,70 @@ export function ProcessSection() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Mobile Horizontal Scroll */}
+        <div className="md:hidden overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide">
+          <div className="flex gap-4 pr-8" style={{ width: 'max-content' }}>
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative group"
+                style={{ width: '240px', flexShrink: 0 }}
+              >
+                <div className="relative h-full min-h-[280px] bg-secondary/30 border border-border rounded-2xl p-5 flex flex-col hover:border-accent transition-all duration-500">
+                  <div className="mb-4">
+                    <div className="relative w-14 h-14 mx-auto">
+                      {/* Icon container */}
+                      <div
+                        className="absolute inset-0 rounded-2xl bg-accent/10 border-2 border-accent/30 flex items-center justify-center"
+                        style={{
+                          boxShadow: '0 0 20px rgba(143, 190, 159, 0.3)',
+                        }}
+                      >
+                        <step.icon className="w-7 h-7 text-accent drop-shadow-[0_0_10px_rgba(143,190,159,0.8)]" />
+                      </div>
+
+                      {/* Glow effect */}
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl bg-accent/30 blur-xl"
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          opacity: [0.6, 1, 0.6],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="text-center flex-1 flex flex-col">
+                    <div
+                      className="text-3xl mb-2 text-accent/30"
+                      style={{ fontWeight: 700 }}
+                    >
+                      {step.number}
+                    </div>
+
+                    <h3 className="text-base mb-2 text-white" style={{ fontWeight: 700 }}>
+                      {step.title}
+                    </h3>
+
+                    <p className="text-muted-foreground text-xs leading-relaxed flex-1">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

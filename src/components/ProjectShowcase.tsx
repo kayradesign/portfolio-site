@@ -109,7 +109,7 @@ export function ProjectShowcase() {
             style={{ y: titleY, opacity: titleOpacity }}
             className="mb-24 text-center"
           >
-            <h2 className="text-6xl md:text-8xl mb-6 text-white" style={{ fontWeight: 700 }}>
+            <h2 className="text-4xl md:text-8xl mb-6 text-white" style={{ fontWeight: 700 }}>
               SELECTED
               <br />
               <span className="text-accent">WORKS</span>
