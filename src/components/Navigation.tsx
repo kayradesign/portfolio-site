@@ -53,33 +53,12 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
           <motion.a
             href="#"
-            className="cursor-hover flex items-center gap-3"
-            whileHover={{ scale: 1.05 }}
+            className="cursor-hover inline-flex items-center justify-center w-9 h-9 md:w-12 md:h-12 bg-accent text-background rounded-lg border border-accent/50"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
           >
-            {/* Logo */}
-            <motion.div
-              className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center relative overflow-hidden"
-              whileHover={{ rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"
-                animate={{
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <span className="text-background text-xl relative z-10" style={{ fontWeight: 800 }}>
-                K
-              </span>
-            </motion.div>
-            
-            <span className="text-lg text-white" style={{ fontWeight: 700 }}>
-              KAYRA
+            <span className="text-xl md:text-2xl" style={{ fontFamily: 'League Spartan, sans-serif', fontWeight: 700, lineHeight: '1' }}>
+              K
             </span>
           </motion.a>
 

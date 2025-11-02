@@ -16,7 +16,7 @@
   --secondary-foreground: #ffffff;
   --muted: #2a2a2a;
   --muted-foreground: #888888;
-  --accent: #8FBE9F;
+  --accent: #A8E6A3;
   --accent-foreground: #0a0a0a;
   --accent-copper: #C95F4B;
   --destructive: #d4183d;
@@ -96,7 +96,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-accent-copper: var(--accent-copper);
+  --color-copper: var(--accent-copper);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -209,6 +209,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Hide scrollbar for horizontal scroll sections */
 .scrollbar-hide {
   -ms-overflow-style: none;
@@ -217,4 +221,16 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Smooth scrolling for projects section */
+#projects {
+  scroll-behavior: smooth;
+}
+
+/* Optimize scroll performance */
+@media (prefers-reduced-motion: no-preference) {
+  #projects > * {
+    will-change: transform;
+  }
 }
