@@ -39,8 +39,8 @@ export default function App() {
     "VISUAL IDENTITY",
     "UI/UX DESIGN",
     "INTERACTIVE PROTOTYPING",
+    "SOCIAL MEDIA",
     "FRONT END DEVELOPMENT",
-    "MOTION GRAPHICS",
     "BRAND STRATEGY",
     "DIGITAL EXPERIENCES"
   ];

@@ -27,6 +27,20 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
         className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 overflow-y-auto p-4 md:p-8"
         onClick={onClose}
       >
+        {/* Close button - Fixed position */}
+        <motion.button
+          onClick={onClose}
+          className="cursor-hover fixed top-20 md:top-24 right-4 md:right-8 w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-accent/50 bg-background/90 backdrop-blur-sm flex items-center justify-center group shadow-lg"
+          style={{ zIndex: 51 }}
+          whileHover={{ scale: 1.1, rotate: 90, borderColor: 'rgba(143, 190, 159, 1)' }}
+          whileTap={{ scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <X className="w-5 h-5 md:w-6 md:h-6 text-accent group-hover:text-white transition-colors" />
+        </motion.button>
+
         <div className="min-h-screen">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
@@ -36,18 +50,6 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             className="max-w-5xl mx-auto py-16"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
-            <motion.button
-              onClick={onClose}
-              className="cursor-hover sticky top-8 left-full ml-auto w-14 h-14 rounded-full border-2 border-accent/50 bg-background/90 backdrop-blur-sm flex items-center justify-center group z-50 shadow-lg mb-8"
-              whileHover={{ scale: 1.1, rotate: 90, borderColor: 'rgba(143, 190, 159, 1)' }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <X className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
-            </motion.button>
 
             {/* Header */}
             <motion.div
@@ -56,7 +58,8 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               transition={{ delay: 0.1 }}
               className="mb-12"
             >
-              <div className="flex flex-wrap gap-3 mb-6">
+              {/* Desktop: Tags on top */}
+              <div className="hidden md:flex flex-wrap gap-3 mb-6">
                 {project.tags.map((tag, i) => (
                   <motion.span
                     key={i}
@@ -70,10 +73,28 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   </motion.span>
                 ))}
               </div>
-              <h2 className="text-5xl md:text-7xl text-white mb-6" style={{ fontWeight: 700 }}>
+              
+              <h2 className="text-4xl md:text-7xl text-white mb-6" style={{ fontWeight: 700 }}>
                 {project.title}
               </h2>
-              <p className="text-xl md:text-2xl text-muted-foreground">
+              
+              {/* Mobile: Tags below title */}
+              <div className="flex md:hidden flex-wrap gap-3 mb-6">
+                {project.tags.map((tag, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 + i * 0.05 }}
+                    className="px-3 py-1.5 bg-accent/10 border border-accent/30 rounded-full text-xs text-accent"
+                    style={{ fontWeight: 600 }}
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
+              </div>
+              
+              <p className="text-lg md:text-2xl text-muted-foreground">
                 {project.description}
               </p>
             </motion.div>

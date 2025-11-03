@@ -131,7 +131,7 @@ export function HeroSection() {
         >
           Crafting premium digital experiences through{' '}
           <span className="text-white" style={{ fontWeight: 600 }}>UI/UX Design</span>,{' '}
-          <span className="text-white" style={{ fontWeight: 600 }}>Interactive Prototyping</span> &{' '}
+          <span className="text-white" style={{ fontWeight: 600 }}>Creative Design</span> &{' '}
           <span className="text-white" style={{ fontWeight: 600 }}>Front End Development</span>
         </motion.p>
 

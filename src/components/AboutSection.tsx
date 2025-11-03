@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Code2, Palette, Terminal, TrendingUp } from 'lucide-react';
+import { Code2, Palette, Terminal, Share2 } from 'lucide-react';
 import { useRef } from 'react';
 
 const skills = [
@@ -10,10 +10,10 @@ const skills = [
     stats: '50+ Projects'
   },
   {
-    icon: Code2,
-    title: 'Interactive Prototyping',
-    description: 'Building high-fidelity prototypes with advanced interactions',
-    stats: '100+ Prototypes'
+    icon: Share2,
+    title: 'Social Media',
+    description: 'Crafting engaging content and visual narratives for digital platforms',
+    stats: '100+ Campaigns'
   },
   {
     icon: Terminal,
@@ -22,7 +22,7 @@ const skills = [
     stats: '200+ Components'
   },
   {
-    icon: TrendingUp,
+    icon: Code2,
     title: 'Brand Strategy',
     description: 'Developing cohesive brand identities and visual systems',
     stats: '5+ Years'
@@ -58,12 +58,9 @@ export function AboutSection() {
         {/* Desktop Grid */}
         <div className="hidden md:grid md:grid-cols-2 gap-8">
           {skills.map((skill, index) => {
-            const cardY = useTransform(scrollYProgress, [0, 1], [50 + index * 20, -50 - index * 20]);
-            
             return (
               <motion.div
                 key={index}
-                style={{ y: cardY }}
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
