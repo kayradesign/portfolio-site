@@ -2,6 +2,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 import type { Project } from './ProjectShowcase';
+import imgBluesenseHeader from "figma:asset/86030c7e18c17cdfcad0d1728f33e6319ea64b40.png";
+import imgAlnixAgroHeader from "figma:asset/c6983ced5dee907820c07d180a5e11309b79b08b.png";
+import imgStilistHeader from "figma:asset/5b4fb1be2a728aa5ea4f64a47d1cc49a2a2f0a67.png";
+import imgAlnixAgroSolutions from "figma:asset/c117c0e5142dc9171b0eeee027840dfd333c0444.png";
+import { ArrowUpRight } from 'lucide-react';
 
 interface ProjectDetailProps {
   project: Project;
@@ -104,13 +109,25 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="relative aspect-video rounded-lg overflow-hidden mb-16 border border-accent/20"
+              className={`relative ${
+                project.title === "BLUESENSE" ? "aspect-[1000/450]" : 
+                project.title === "STILIST APP" ? "" : 
+                "aspect-video"
+              } rounded-lg overflow-hidden mb-16 ${project.title === "STILIST APP" ? "" : "border border-accent/20"}`}
             >
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
+              {project.title === "STILIST APP" ? (
+                <img
+                  src={imgStilistHeader}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={project.title === "BLUESENSE" ? imgBluesenseHeader : project.title === "ALNIX AGRO" ? imgAlnixAgroHeader : project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </motion.div>
 
             {/* Detailed sections */}
@@ -164,24 +181,143 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="grid md:grid-cols-2 gap-6"
                 >
-                  {project.additionalImages.map((img, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.6 + index * 0.1 }}
-                      className="aspect-video rounded-lg overflow-hidden border border-accent/20"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <img
-                        src={img}
-                        alt={`${project.title} detail ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </motion.div>
-                  ))}
+                  {/* BLUESENSE: 2x2 grid of AI skincare images */}
+                  {project.title === "BLUESENSE" && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                      {project.additionalImages.map((img, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.7 + index * 0.1 }}
+                          className="aspect-video rounded-lg overflow-hidden border border-accent/20 bg-secondary"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          {img.startsWith('video:') ? (
+                            <iframe
+                              src={img.replace('video:', '')}
+                              className="w-full h-full"
+                              allow="autoplay"
+                              allowFullScreen
+                            />
+                          ) : (
+                            <img
+                              src={img}
+                              alt={`${project.title} design detail ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                  {/* ALNIX AGRO: Custom layout - Single wide image */}
+                  {project.title === "ALNIX AGRO" && (
+                    <div className="w-full">
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="rounded-lg overflow-hidden aspect-[1920/820] w-full"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <img
+                          src={imgAlnixAgroSolutions}
+                          alt="Alnix Agro Solutions Overview"
+                          className="w-full h-full object-contain"
+                        />
+                      </motion.div>
+                    </div>
+                  )}
+                  {/* SOCIAL MEDIA: Custom layout - 3 kare + 3 kare + 2 yatay */}
+                  {project.title === "SOCIAL MEDIA" && (
+                    <div className="space-y-4 md:space-y-6">
+                      {/* First row - 3 square images */}
+                      <div className="grid grid-cols-3 gap-3 md:gap-6">
+                        {project.additionalImages.slice(0, 3).map((img, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.6 + index * 0.1 }}
+                            className="aspect-square rounded-lg overflow-hidden border border-accent/20 bg-secondary"
+                            whileHover={{ scale: 1.02 }}
+                          >
+                            <img
+                              src={img}
+                              alt={`Social media design ${index + 1}`}
+                              className="w-full h-full object-contain"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                      
+                      {/* Second row - 3 square images */}
+                      <div className="grid grid-cols-3 gap-3 md:gap-6">
+                        {project.additionalImages.slice(3, 6).map((img, index) => (
+                          <motion.div
+                            key={index + 3}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.9 + index * 0.1 }}
+                            className="aspect-square rounded-lg overflow-hidden border border-accent/20 bg-secondary"
+                            whileHover={{ scale: 1.02 }}
+                          >
+                            <img
+                              src={img}
+                              alt={`Social media design ${index + 4}`}
+                              className="w-full h-full object-contain"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                      
+                      {/* Third row - 2 horizontal images */}
+                      {project.additionalImages.length > 6 && (
+                        <div className="grid grid-cols-2 gap-3 md:gap-6">
+                          {project.additionalImages.slice(6, 8).map((img, index) => (
+                            <motion.div
+                              key={index + 6}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 1.2 + index * 0.1 }}
+                              className="aspect-video rounded-lg overflow-hidden border border-accent/20 bg-secondary"
+                              whileHover={{ scale: 1.02 }}
+                            >
+                              <img
+                                src={img}
+                                alt={`Social media design ${index + 7}`}
+                                className="w-full h-full object-cover"
+                                style={{ objectPosition: '50% 35%' }}
+                              />
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {/* Default grid for other projects */}
+                  {project.title !== "BLUESENSE" && project.title !== "ALNIX AGRO" && project.title !== "SOCIAL MEDIA" && (
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {project.additionalImages.map((img, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.6 + index * 0.1 }}
+                          className="aspect-video rounded-lg overflow-hidden border border-accent/20"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <img
+                            src={img}
+                            alt={`${project.title} detail ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               )}
 
@@ -210,6 +346,33 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   ))}
                 </ul>
               </motion.div>
+
+              {/* ALNIX AGRO Figma Link */}
+              {project.title === "ALNIX AGRO" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="text-center"
+                >
+                  <motion.a
+                    href="https://www.figma.com/design/211m7wk4HrwiS2u13TulgM/ALNIX-AGRO?node-id=14-265&t=CD4EGaRAR7UxWahS-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-hover inline-flex items-center gap-3 px-6 py-3 bg-accent/10 border border-accent/40 rounded-full hover:bg-accent/20 transition-all group"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M7.5 2.25A2.25 2.25 0 0 0 5.25 4.5v15A2.25 2.25 0 0 0 7.5 21.75h3.75V16.5H7.5v-3.75h3.75V9H7.5V5.25h3.75v3.75H15V5.25h-3.75Zm7.5 0v3.75h3.75A2.25 2.25 0 0 0 21 3.75V2.25h-6Zm0 7.5V13.5h3.75a2.25 2.25 0 0 0 0-4.5H15Zm0 7.5v3.75h3.75a2.25 2.25 0 0 0 2.25-2.25v-1.5H15Z"/>
+                    </svg>
+                    <span className="text-accent" style={{ fontWeight: 600 }}>
+                      View Full Design on Figma
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 text-accent" />
+                  </motion.a>
+                </motion.div>
+              )}
             </div>
 
             {/* Bottom CTA */}
